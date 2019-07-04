@@ -184,9 +184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ad905d2d428ef42b7d280d7f1f16a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMoveSpeed: 5
+  playerMoveSpeed: 7
   playerJumpSpeed: 20
   playerClimbSpeed: 5
+  playerDeathEffect: {x: 0, y: 15}
 --- !u!61 &1694465942
 BoxCollider2D:
   m_ObjectHideFlags: 0
