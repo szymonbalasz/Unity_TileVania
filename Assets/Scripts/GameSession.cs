@@ -11,8 +11,8 @@ public class GameSession : MonoBehaviour
     [SerializeField] GameObject defeatOverlay = default;
     [SerializeField] float deathTime = 2f;
     [SerializeField] float fadeSpeed = 1f;
-    [SerializeField] float restartButtonTime = 2f;
     [SerializeField] GameObject restartButton = default;
+    [SerializeField] GameObject livesDisplay = default;
 
     [Header("Success")]
     [SerializeField] GameObject successOverlay = default;
@@ -21,6 +21,7 @@ public class GameSession : MonoBehaviour
 
 
     Text defeatOverlayText;
+    Text livesDisplayText;
 
     private void Awake()
     {
@@ -38,9 +39,20 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    void Start()
-    {        
-              
+    private void Start()
+    {
+        livesDisplayText = livesDisplay.GetComponent<Text>();
+    }
+
+    private void Update()
+    {
+        livesDisplayText.text = UpdateLivesText();
+    }
+
+    private string UpdateLivesText()
+    {
+        string livesRemainingText = ("Lives: " + playerLives); 
+        return livesRemainingText;
     }
 
     public void processPlayerDeath()
