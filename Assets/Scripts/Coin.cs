@@ -8,14 +8,17 @@ public class Coin : MonoBehaviour
     [SerializeField] AudioClip pickupSFX = default;
     [SerializeField] float pickupVol = 1f;
 
-    int count = 0;
+    bool taken = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (count == 1) { return; } // if jumping on coin from above both body and feet colliders trigger method
-        AudioSource.PlayClipAtPoint(pickupSFX, Camera.main.transform.position, pickupVol);
-        FindObjectOfType<GameSession>().AddScore(scoreValue);
-        count++;
-        Destroy(gameObject);
+        if (taken) { return; }
+        else
+        {
+            taken = true;
+            AudioSource.PlayClipAtPoint(pickupSFX, Camera.main.transform.position, pickupVol);
+            FindObjectOfType<GameSession>().AddScore(scoreValue);
+            Destroy(gameObject);
+        }
     }
 }

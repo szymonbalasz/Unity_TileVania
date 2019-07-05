@@ -2997,7 +2997,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialText: {fileID: 2127727458}
-  fadeInSpeed: 3
+  fadeInSpeed: 1
   fadeOutSpeed: 1
 --- !u!4 &1694465941 stripped
 Transform:

@@ -13,6 +13,8 @@ public class GameSession : MonoBehaviour
     [SerializeField] float fadeSpeed = 1f;
     [SerializeField] GameObject restartButton = default;
     [SerializeField] GameObject livesDisplay = default;
+    [SerializeField] AudioClip deathSFX = default;
+    [SerializeField] float deathVol = 1f;
 
     [Header("Score")]
     [SerializeField] GameObject scoreDisplay = default;
@@ -21,8 +23,8 @@ public class GameSession : MonoBehaviour
 
     [Header("Success")]
     [SerializeField] GameObject successOverlay = default;
-    [SerializeField] string winString = "Fin!!";
     [SerializeField] float loadSceneDelay = 2f;
+    [SerializeField] float successSlowMotionFactor = 0.1f;
 
     //cache
     Text defeatOverlayText;
@@ -48,13 +50,14 @@ public class GameSession : MonoBehaviour
     private void Start()
     {
         livesDisplayText = livesDisplay.GetComponent<Text>();
+        livesDisplayText.text = UpdateLivesText();
         scoreDisplayText = scoreDisplay.GetComponent<Text>();
     }
 
     private void Update()
     {
-        livesDisplayText.text = UpdateLivesText();
-        scoreDisplayText.text = UpdateScoreText();
+        
+        
     }
 
     private string UpdateLivesText()
@@ -83,6 +86,8 @@ public class GameSession : MonoBehaviour
     private IEnumerator DeductALife()
     {
         playerLives--;
+        AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position, deathVol);
+        livesDisplayText.text = UpdateLivesText();
         yield return new WaitForSecondsRealtime(deathTime);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -125,7 +130,10 @@ public class GameSession : MonoBehaviour
 
     private IEnumerator LoadNextLevel()
     {
+        Time.timeScale = successSlowMotionFactor;
         yield return new WaitForSecondsRealtime(loadSceneDelay);
+        Time.timeScale = 1f;
+        Destroy(FindObjectOfType<ScenePersist>());
         int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
         int numOfScenes = SceneManager.sceneCountInBuildSettings;
         if (nextScene < numOfScenes)
@@ -148,5 +156,6 @@ public class GameSession : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        scoreDisplayText.text = UpdateScoreText();
     }
 }

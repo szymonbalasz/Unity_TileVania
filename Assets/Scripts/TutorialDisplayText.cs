@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TutorialDisplayText : MonoBehaviour
 {
     [SerializeField] Text tutorialText = default;
-    [SerializeField] float fadeInSpeed = 3f;
+    [SerializeField] float fadeInSpeed = 1f;
     [SerializeField] float fadeOutSpeed = 1f;
 
     void Start()
@@ -26,6 +26,7 @@ public class TutorialDisplayText : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        StopCoroutine(FadeInText(tutorialText));
         StartCoroutine(FadeOutText(tutorialText));
     }
 

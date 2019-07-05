@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     [SerializeField] float playerMoveSpeed = 5f;
     [SerializeField] float playerJumpSpeed = 5f;
     [SerializeField] float playerClimbSpeed = 5f;
+    [SerializeField] float climbingHorizontalSlowDown = 1f;
+    float tempMoveSpeed;
 
     [Header("Death")]
     [SerializeField] Vector2 playerDeathEffect = new Vector2(25f, 25f);
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        tempMoveSpeed = playerMoveSpeed;
         myRigidBody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         myBodyCollider = GetComponent<CapsuleCollider2D>();
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour
     }
 
     void Update()
-    {        
+    {
         if (!isAlive) { return; }
         Run();
         FlipSprite();
@@ -83,9 +86,11 @@ public class Player : MonoBehaviour
         {
             myRigidBody.gravityScale = gravityScaleAtStart;
             myAnimator.SetBool("Climbing", false);
-            return;
+            playerMoveSpeed = tempMoveSpeed;
+            return;            
         }
 
+        playerMoveSpeed = climbingHorizontalSlowDown;
         float controlThrow = CrossPlatformInputManager.GetAxis("Vertical");
         Vector2 climbVelocity = new Vector2(myRigidBody.velocity.x, controlThrow * playerClimbSpeed);
         myRigidBody.velocity = climbVelocity;

@@ -390,6 +390,8 @@ MonoBehaviour:
   fadeSpeed: 1
   restartButton: {fileID: 3664729994718983200}
   livesDisplay: {fileID: 458373152}
+  deathSFX: {fileID: 8300000, guid: e937bda92410b8742af40ff12ac11596, type: 3}
+  deathVol: 1
   scoreDisplay: {fileID: 7737083078317125287}
   successOverlay: {fileID: 3664729994559894734}
   winString: Fin!!
