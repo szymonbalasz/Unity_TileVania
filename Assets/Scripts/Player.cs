@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
     [Header("Death")]
     [SerializeField] Vector2 playerDeathEffect = new Vector2(25f, 25f);
 
+
     void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
         myFeetCollider = GetComponent<BoxCollider2D>();
 
         gravityScaleAtStart = myRigidBody.gravityScale;
+
+        FindObjectOfType<GameSession>().ResetOverlays();
     }
 
     void Update()
@@ -110,6 +114,9 @@ public class Player : MonoBehaviour
             myAnimator.SetTrigger("Die");
             GetComponent<Rigidbody2D>().velocity = playerDeathEffect;
             isAlive = false;
+            FindObjectOfType<GameSession>().processPlayerDeath();
         }
     }
+
+
 }
