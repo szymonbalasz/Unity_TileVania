@@ -14,13 +14,19 @@ public class GameSession : MonoBehaviour
     [SerializeField] GameObject restartButton = default;
     [SerializeField] GameObject livesDisplay = default;
 
+    [Header("Score")]
+    [SerializeField] GameObject scoreDisplay = default;
+
+    int score = 0;
+
     [Header("Success")]
     [SerializeField] GameObject successOverlay = default;
     [SerializeField] string winString = "Fin!!";
     [SerializeField] float loadSceneDelay = 2f;
 
-
+    //cache
     Text defeatOverlayText;
+    Text scoreDisplayText;
     Text livesDisplayText;
 
     private void Awake()
@@ -42,24 +48,30 @@ public class GameSession : MonoBehaviour
     private void Start()
     {
         livesDisplayText = livesDisplay.GetComponent<Text>();
+        scoreDisplayText = scoreDisplay.GetComponent<Text>();
     }
 
     private void Update()
     {
         livesDisplayText.text = UpdateLivesText();
+        scoreDisplayText.text = UpdateScoreText();
     }
 
     private string UpdateLivesText()
     {
-        string livesRemainingText = ("Lives: " + playerLives); 
-        return livesRemainingText;
+        return ("Lives: " + playerLives);
+    }
+
+    private string UpdateScoreText()
+    {
+        return ("Score: " + score);
     }
 
     public void processPlayerDeath()
     {
         if (playerLives > 1)
         {
-            DeductALife();
+            StartCoroutine(DeductALife());
         }
         else
         {
@@ -68,9 +80,10 @@ public class GameSession : MonoBehaviour
         
     }
 
-    private void DeductALife()
+    private IEnumerator DeductALife()
     {
         playerLives--;
+        yield return new WaitForSecondsRealtime(deathTime);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -99,9 +112,9 @@ public class GameSession : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void StartButton()
+    public void ReturnToStart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(1);
     }
 
     public void LevelComplete()
@@ -121,7 +134,7 @@ public class GameSession : MonoBehaviour
         }
         else
         {
-            successOverlay.GetComponent<Text>().text = winString;
+            ReturnToStart();
         }
     }
 
@@ -130,5 +143,10 @@ public class GameSession : MonoBehaviour
         successOverlay.SetActive(false);
         defeatOverlay.SetActive(false);
         restartButton.SetActive(false);
+    }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
     }
 }
