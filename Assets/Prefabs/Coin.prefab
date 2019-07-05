@@ -92,7 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreValue: 5
-  pickupSFX: {fileID: 8300000, guid: 6d33f3bb0dd54984dae13da85d14f03f, type: 3}
+  pickupSFX: {fileID: 8300000, guid: 9fc3f42f4a4e78e4dbbf34d2a2c45055, type: 3}
+  pickupVol: 1
 --- !u!1 &1676709056821546091
 GameObject:
   m_ObjectHideFlags: 0
